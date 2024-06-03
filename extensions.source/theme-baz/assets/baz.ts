@@ -1,5 +1,1 @@
-import "./blabla.css";
-
-const miguel = "miguel";
-// dasds
-// dasdas
+export const baz = "baz";

@@ -31,7 +31,7 @@ function getTSFiles(dir) {
 export default themes.map((theme) => {
   const themePath = join(extensionsSourceDir, theme);
   const themeOutPath = join(extensionsDir, theme);
-  const tsFiles = getTSFiles(join(themePath, "assets"));
+  const tsFiles = getTSFiles(themePath);
 
   /**
    * @type {import('rollup').RollupOptions}
