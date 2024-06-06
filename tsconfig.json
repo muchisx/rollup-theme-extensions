@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
+    "module": "ES2015",
     "moduleResolution": "Bundler",
     "sourceMap": false,
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["extensions.source/**/*"]
+  "include": ["extensions.src/**/*"]
 }

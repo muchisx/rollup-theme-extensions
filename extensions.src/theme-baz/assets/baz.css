@@ -1,0 +1,11 @@
+div {
+  background-color: white;
+}
+
+div p {
+  color: red;
+}
+
+.selector:has(.hijo) {
+  background: blue;
+}
