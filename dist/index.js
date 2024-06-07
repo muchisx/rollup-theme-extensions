@@ -34,23 +34,56 @@ function createRollupConfig({ extensionsSourceDir, extensionsDir, minifyCss = fa
         const themePath = join(extensionsSourceDir, theme);
         const tsAndCssFiles = getFiles(themePath, extensionsRegex);
         const themeOutPath = join(extensionsDir, theme);
-        const configsPerFile = tsAndCssFiles.map((tsFile) => {
-            console.log(`⚡ ~ configsPerFile ~ tsFile:`, tsFile);
+        const configsPerFile = tsAndCssFiles.map((file) => {
+            console.log(`Detected File:`, file);
             const themeNameCamelCase = theme
                 .split("-")
                 .slice(1)
                 .join("-")
                 .replace(/-([a-z])/g, (g) => g[1].toUpperCase());
             const fileNameCamelCase = path
-                .basename(tsFile)
+                .basename(file)
                 .split(".")
                 .slice(0, -1)
                 .join("-")
                 .replace(/-([a-z])/g, (g) => g[1].toUpperCase())
                 .replace(/^\w/, (c) => c.toUpperCase());
             const outputVariableName = `${themeNameCamelCase}${fileNameCamelCase}`;
+            const commonOptions = {
+                input: file,
+                output: {
+                    dir: join(themeOutPath, "assets"),
+                    sourcemap: false,
+                    name: outputVariableName,
+                    generatedCode: "es5",
+                },
+                onwarn: (warning, defaultHandler) => {
+                    if (warning.code !== "FILE_NAME_CONFLICT")
+                        defaultHandler(warning);
+                },
+            };
+            const isCssFile = file.endsWith(".css");
+            if (isCssFile) {
+                return {
+                    ...commonOptions,
+                    plugins: [
+                        postcss({
+                            extensions: [".css"],
+                            plugins: [],
+                            minimize: minifyCss,
+                            inject: false,
+                            extract: true,
+                        }),
+                    ],
+                    output: {
+                        ...commonOptions.output,
+                        format: "es",
+                        entryFileNames: "[name].css",
+                    },
+                };
+            }
             return {
-                input: tsFile,
+                ...commonOptions,
                 plugins: [
                     typescript({
                         target: "ES2022",
@@ -59,23 +92,16 @@ function createRollupConfig({ extensionsSourceDir, extensionsDir, minifyCss = fa
                         sourceMap: false,
                         esModuleInterop: true,
                         skipLibCheck: true,
+                        compilerOptions: {
+                            rootDir: extensionsSourceDir,
+                        },
                     }),
                     ...(minifyJs ? [terser()] : []),
-                    postcss({
-                        extensions: [".css"],
-                        plugins: [],
-                        minimize: minifyCss,
-                        inject: false,
-                        extract: true,
-                    }),
                 ],
                 output: {
-                    dir: join(themeOutPath, "assets"),
+                    ...commonOptions.output,
                     format: "iife",
-                    generatedCode: "es5",
-                    sourcemap: false,
                     entryFileNames: "[name].js",
-                    name: outputVariableName,
                 },
             };
         });
