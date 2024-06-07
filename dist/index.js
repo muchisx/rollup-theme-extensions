@@ -14,8 +14,6 @@ function getFiles(dirPath, extensionsRegex) {
             results = results.concat(getFiles(filePath, extensionsRegex));
             return;
         }
-        // Only include TypeScript and CSS files
-        // More could be added here if needed, plugins must be added to the rollup config
         if (extensionsRegex.test(filePath)) {
             results.push(filePath);
         }
@@ -25,26 +23,18 @@ function getFiles(dirPath, extensionsRegex) {
 
 const extensionsRegex = /\.(ts|css)$/;
 function createRollupConfig({ extensionsSourceDir, extensionsDir, minifyCss = false, minifyJs = false, }) {
-    // Get all theme directories
     const themes = readdirSync(extensionsSourceDir).filter((dir) => dir.startsWith("theme-"));
-    // Function to get all TypeScript and CSS files in a directory
     const configs = themes
         .filter((theme) => {
         const themePath = join(extensionsSourceDir, theme);
-        // TODO [1] - Optimize, now it's running twice
-        const tsFiles = getFiles(themePath, extensionsRegex);
-        // Only include themes that have TypeScript files
-        return !!tsFiles.length;
+        const tsAndCssFiles = getFiles(themePath, extensionsRegex);
+        return !!tsAndCssFiles.length;
     })
         .flatMap((theme) => {
-        // TODO [1] - Optimize, now it's running twice
         const themePath = join(extensionsSourceDir, theme);
-        const tsFiles = getFiles(themePath, extensionsRegex);
+        const tsAndCssFiles = getFiles(themePath, extensionsRegex);
         const themeOutPath = join(extensionsDir, theme);
-        /**
-         * @type {import('rollup').RollupOptions[]}
-         */
-        const configsPerFile = tsFiles.map((tsFile) => {
+        const configsPerFile = tsAndCssFiles.map((tsFile) => {
             console.log(`⚡ ~ configsPerFile ~ tsFile:`, tsFile);
             const themeNameCamelCase = theme
                 .split("-")

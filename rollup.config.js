@@ -8,7 +8,7 @@ export default defineConfig({
     format: "module",
   },
   external: ["fs", "path"],
-  plugins: [typescript({ tsconfig: "./tsconfig.json" })],
+  plugins: [typescript({ tsconfig: "./tsconfig.json", removeComments: true })],
   preserveSymlinks: true,
   watch: {
     include: "src/**",
