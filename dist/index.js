@@ -24,7 +24,7 @@ function getFiles(dirPath, extensionsRegex) {
 }
 
 const extensionsRegex = /\.(ts|css)$/;
-function createRollupConfig({ extensionsSourceDir, extensionsDir }) {
+function createRollupConfig({ extensionsSourceDir, extensionsDir, minifyCss = false, minifyJs = false, }) {
     // Get all theme directories
     const themes = readdirSync(extensionsSourceDir).filter((dir) => dir.startsWith("theme-"));
     // Function to get all TypeScript and CSS files in a directory
@@ -70,11 +70,11 @@ function createRollupConfig({ extensionsSourceDir, extensionsDir }) {
                         esModuleInterop: true,
                         skipLibCheck: true,
                     }),
-                    terser(),
+                    ...(minifyJs ? [terser()] : []),
                     postcss({
                         extensions: [".css"],
                         plugins: [],
-                        minimize: true,
+                        minimize: minifyCss,
                         inject: false,
                         extract: true,
                     }),
@@ -84,7 +84,7 @@ function createRollupConfig({ extensionsSourceDir, extensionsDir }) {
                     format: "iife",
                     generatedCode: "es5",
                     sourcemap: false,
-                    entryFileNames: "[name].min.js",
+                    entryFileNames: "[name].js",
                     name: outputVariableName,
                 },
             };

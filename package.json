@@ -1,8 +1,12 @@
 {
   "name": "rollup-theme-extensions",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Rollup configuration for compiling and minifying CSS and TypeScript for Shopify Theme App extensions",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx rollup -c",
@@ -10,7 +14,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
     "postcss": "^8.4.38",

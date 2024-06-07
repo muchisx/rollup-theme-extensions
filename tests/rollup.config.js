@@ -7,4 +7,6 @@ const extensionsDir = "extensions";
 export default createRollupConfig({
   extensionsSourceDir,
   extensionsDir,
+  minifyCss: true,
+  minifyJs: true,
 });
