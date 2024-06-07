@@ -3,5 +3,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx rollup -c",
     "watch": "npx rollup -c --watch"
-  }
+  },
+  "type": "module"
 }

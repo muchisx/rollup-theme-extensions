@@ -1,5 +1,5 @@
 // @ts-check
-import { createRollupConfig } from "../dist/index.js";
+import { createRollupConfig } from "rollup-theme-extensions";
 
 const extensionsSourceDir = "extensions.src";
 const extensionsDir = "extensions";
