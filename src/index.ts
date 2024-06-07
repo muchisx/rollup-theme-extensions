@@ -30,21 +30,18 @@ export function createRollupConfig({
       const themePath = join(extensionsSourceDir, theme);
 
       // TODO [1] - Optimize, now it's running twice
-      const tsFiles = getFiles(themePath, extensionsRegex);
+      const tsAndCssFiles = getFiles(themePath, extensionsRegex);
 
       // Only include themes that have TypeScript files
-      return !!tsFiles.length;
+      return !!tsAndCssFiles.length;
     })
     .flatMap((theme) => {
       // TODO [1] - Optimize, now it's running twice
       const themePath = join(extensionsSourceDir, theme);
-      const tsFiles = getFiles(themePath, extensionsRegex);
+      const tsAndCssFiles = getFiles(themePath, extensionsRegex);
       const themeOutPath = join(extensionsDir, theme);
 
-      /**
-       * @type {import('rollup').RollupOptions[]}
-       */
-      const configsPerFile = tsFiles.map((tsFile) => {
+      const configsPerFile = tsAndCssFiles.map((tsFile) => {
         console.log(`⚡ ~ configsPerFile ~ tsFile:`, tsFile);
 
         const themeNameCamelCase = theme
