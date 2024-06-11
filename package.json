@@ -1,6 +1,6 @@
 {
   "name": "rollup-theme-extensions",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A Rollup configuration for compiling and minifying CSS and TypeScript for Shopify Theme App extensions",
   "main": "dist/index.js",
   "files": [
