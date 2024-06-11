@@ -3,7 +3,7 @@
 ![NPM Version](https://img.shields.io/npm/v/rollup-theme-extensions)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/muchisx/rollup-theme-extensions/main)
 
-This a generator for Rollup configs to build Shopify theme app extensions with typescript and (in the future) css preprocessors.
+This is a generator for Rollup configs to build Shopify theme app extensions with typescript and (in the future) css preprocessors.
 
 ## Features:
 
